@@ -4,8 +4,12 @@
 
 -Team & Roles: Buse Mısra Turgut and Aylin Duran are team members and they both contributed each step of the project equally.
 
--Structure: 
-
+-Structure: captcha-breaking
+               > .idea
+               > README.md
+               > project.py
+               > requirement.txt
+               
 -Language, version and main file: Programming language and version is Python 3.9, name of the file is project.py
     
     
