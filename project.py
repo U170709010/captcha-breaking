@@ -1,18 +1,15 @@
-import numpy as np
-from PIL import Image, ImageDraw, ImageFont
-from skimage import transform as tf
-
-def create_captcha(text, shear=0, size=(100,24)):
-
-    im = Image.new("L", size, "black")
-    draw = ImageDraw.Draw(im)
-
-    font = ImageFont.truetype(r"arial.ttf", 22)
-    draw.text((2,2), text, fill=1, font=font)
-
-    image = np.array(im)
+from sklearn.utils import check_random_state
+random_state = check_random_state(14)
+letters = list("ABCDEFGHIJKLMNOPRSTUVWXYZ")
+shear_values = np.arange(0, 0.5, 0.05)
 
 
-    affine_tf = tf.AffineTransform(shear=shear)
-    image = tf.warp(image, affine_tf)
-    return image / image.max()
+def generate_sample(random_state=None):
+    random_state=check_random_state(random_state)
+    letter = random_state.choice(letters)
+    shear = random_state.choice(shear_values)
+
+
+    return create_captcha(letter, shear=shear, size=(20,20)),letter.index(letter)
+
+
