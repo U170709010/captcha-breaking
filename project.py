@@ -66,6 +66,11 @@ plt.imshow(image, cmap="Greys")
 print("The target for this image is: {0}".format(target))
 
 
+dataset, targets = zip(*(generate_sample(random_state) for i in range(3000)))
+
+dataset = np.array(dataset, dtype='float')
+
+targets = np.array(targets)
 
 
 
