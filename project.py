@@ -73,5 +73,38 @@ dataset = np.array(dataset, dtype='float')
 targets = np.array(targets)
 
 
+from sklearn.preprocessing import OneHotEncoder
+onehot = OneHotEncoder()
+y = onehot.fit_transform(targets.reshape(targets.shape[0],1))
+y = y.todense()
+
+from skimage.transform import resize
+
+dataset = np.array([resize(segment_image(sample)[0], (20, 20)) for sample in dataset])
+
+X = dataset.reshape((dataset.shape[0], dataset.shape[1] * dataset.shape[2]))
+
+from sklearn.cross_validation import train_test_split
+
+X_train, X_test, y_train, y_test = \ train_test_split(X, y, train_size=0.9)
+
+from pybrain.datasets import SupervisedDataSet
+
+training = SupervisedDataSet(X.shape[1], y.shape[1])
+for i in range(X_train.shape[0]):
+    training.addSample(X_train[i], y_train[i])
+testing = SupervisedDataSet(X.shape[1], y.shape[1])
+for i in range(X_test.shape[0]):
+    testing.addSample(X_test[i], y_test[i])
+
+from pybrain.tools.shortcuts import buildNetwork
+net = buildNetwork(X.shape[1], 100, y.shape[1], bias=True)
+
+
+
+
+
+
+
 
 
