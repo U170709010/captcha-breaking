@@ -167,6 +167,15 @@ plt.ylabel('Actual')
 plt.xlabel('Predicted')
 plt.show()
 
+from nltk.metrics import edit_distance
 
+steps = edit_distance("STEP", "STOP")
+
+print("The number of steps needed is: {0}".format(steps))
+
+def compute_distance(prediction, word):
+
+    return len(prediction) - sum(prediction[i] == word[i] for i in
+                                 range(len(prediction)))
 
 
