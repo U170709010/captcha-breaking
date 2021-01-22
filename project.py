@@ -140,6 +140,32 @@ import nltk
 nltk.download('words')
 from nltk.corpus import words
 
+valid_words = [word.upper() for word in words.words() if len(word) == 4]
+
+num_correct = 0
+num_incorrect = 0
+for word in valid_words:
+    correct, word, prediction = test_prediction(word, net, shear=0.2)
+if correct:
+    num_correct += 1
+else:
+    num_incorrect += 1
+
+print("Number correct is {0}".format(num_correct))
+print("Number incorrect is {0}".format(num_incorrect))
+
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(np.argmax(y_test, axis=1), predictions)
+
+plt.figure(figsize=(10, 10))
+plt.imshow(cm)
+
+tick_marks = np.arange(len(letters))
+plt.xticks(tick_marks, letters)
+plt.yticks(tick_marks, letters)
+plt.ylabel('Actual')
+plt.xlabel('Predicted')
+plt.show()
 
 
 
