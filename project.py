@@ -100,7 +100,41 @@ for i in range(X_test.shape[0]):
 from pybrain.tools.shortcuts import buildNetwork
 net = buildNetwork(X.shape[1], 100, y.shape[1], bias=True)
 
+from pybrain.supervised.trainers import BackpropTrainer
+trainer = BackpropTrainer(net, training, learningrate=0.01, weightdecay=0.01)
 
+trainer.trainEpochs(epochs=20)
+
+predictions = trainer.testOnClassData(dataset=testing)
+
+from sklearn.metrics import f1_score
+print("F-score: {0:.2f}".format(f1_score(predictions, y_test.argmax(axis=1) )))
+
+def predict_captcha(captcha_image, neural_network):
+
+    subimages = segment_image(captcha_image)
+
+    predicted_word = " "
+
+
+    for subimage in subimages:
+
+        subimage = resize(subimage, (20, 20))
+        outputs = net.activate(subimage.flatten())
+        prediction = np.argmax(outputs)
+        predicted_word += letters[prediction]
+
+    return predicted_word
+
+word = "GENE"
+captcha = create_captcha(word, shear=0.2)
+print(predict_captcha(captcha, net))
+
+def test_prediction(word, net, shear=0.2):
+    captcha = create_captcha(word, shear=shear)
+    prediction = predict_captcha(captcha, net)
+    prediction = prediction[:4]
+    return word == prediction, word, prediction
 
 
 
