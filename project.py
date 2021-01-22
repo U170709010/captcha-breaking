@@ -179,3 +179,29 @@ def compute_distance(prediction, word):
                                  range(len(prediction)))
 
 
+from operator import itemgetter
+def improved_prediction(word, net, dictionary, shear=0.2):
+    captcha = create_captcha(word, shear=shear)
+    prediction = predict_captcha(captcha, net)
+    prediction = prediction[:4]
+
+    if prediction not in dictionary:
+        distances = sorted([(word, compute_distance(prediction, word)) for word in dictionary],key=itemgetter(1))
+        best_word = distances[0]
+        prediction = best_word[0]
+    return word == prediction, word, prediction
+
+
+num_correct = 0
+num_incorrect = 0
+for word in valid_words:
+    correct, word, prediction = improved_prediction(word, net, valid_
+    words, shear=0.2)
+    if correct:
+        num_correct += 1
+    else:
+    num_incorrect += 1
+print("Number correct is {0}".format(num_correct))
+print("Number incorrect is {0}".format(num_incorrect))
+
+
