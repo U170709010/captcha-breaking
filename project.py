@@ -136,7 +136,9 @@ def test_prediction(word, net, shear=0.2):
     prediction = prediction[:4]
     return word == prediction, word, prediction
 
-
+import nltk
+nltk.download('words')
+from nltk.corpus import words
 
 
 
